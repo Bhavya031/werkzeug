@@ -1,0 +1,35 @@
+name: Prism automated estimation and allocation validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Saved Prism estimate run in this repository
+        required: true
+      issue_number:
+        description: Issue the saved estimate belongs to
+        required: true
+      preflight_only:
+        description: Check GitHub secret write access without CFO OAuth
+        type: boolean
+        default: false
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+jobs:
+  prism:
+    uses: Bhavya031/Prisme/.github/workflows/prism-cfo-allocation.yml@main
+    with:
+      prisme_ref: main
+      config: configs/portfolio.json
+      run_id: ${{ inputs.run_id }}
+      issue_number: ${{ inputs.issue_number }}
+      preflight_only: ${{ inputs.preflight_only }}
+    secrets:
+      PRISME_READ_TOKEN: ${{ secrets.PRISME_READ_TOKEN }}
+      CFO_OAUTH_CLIENT_ID: ${{ secrets.CFO_OAUTH_CLIENT_ID }}
+      CFO_OAUTH_REFRESH_TOKEN: ${{ secrets.CFO_OAUTH_REFRESH_TOKEN }}
+      CFO_SECRET_WRITE_TOKEN: ${{ secrets.CFO_SECRET_WRITE_TOKEN }}
