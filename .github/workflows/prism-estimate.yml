@@ -1,0 +1,28 @@
+name: Prism automated estimation and allocation
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+jobs:
+  prism:
+    uses: Bhavya031/Prisme/.github/workflows/prism-estimate.yml@main
+    with:
+      prisme_ref: main
+      config: configs/portfolio.json
+    secrets:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      NEATLOGS_API_KEY: ${{ secrets.NEATLOGS_API_KEY }}
+      ENTIRE_TOKEN: ${{ secrets.ENTIRE_TOKEN }}
+      PRISME_READ_TOKEN: ${{ secrets.PRISME_READ_TOKEN }}
+      CFO_OAUTH_CLIENT_ID: ${{ secrets.CFO_OAUTH_CLIENT_ID }}
+      CFO_OAUTH_REFRESH_TOKEN: ${{ secrets.CFO_OAUTH_REFRESH_TOKEN }}
+      CFO_SECRET_WRITE_TOKEN: ${{ secrets.CFO_SECRET_WRITE_TOKEN }}
